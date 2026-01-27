@@ -19,7 +19,7 @@ HDL is a **Hardware Description Language**. It is a list of connections, not a s
 
 ### Internal Nodes (Wires)
 When passing a signal from one gate to the next, you must name the "invisible" wire:
-```hdl
+
 // Building AND from NAND and NOT
 Nand(a=a, b=b, out=nandResult); // 'nandResult' is the internal wire
 Not(in=nandResult, out=out);
