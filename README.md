@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# building-a-computer-from-scratch
+A Deep Dive in Computer Architecture: My implementation of the Nand2Tetris project.
+=======
+>>>>>>> 8645bb9 (Completed first few easy gates until Xor)
 # Building a Computer from First Principles (Nand2Tetris)
 
 This repository contains my progress and implementation of the **Nand2Tetris** project (The Elements of Computing Systems). The goal is to build a fully functional computer system, starting from a single NAND gate and scaling up to a high-level object-oriented language and a game.
