@@ -71,8 +71,3 @@ Mux16(a=o1, b=in, sel=load, out=o2);
 Mux16(a=o2, b=false, sel=reset, out=finalIn);
 Register(in=finalIn, load=true, out=out, out=feedback);
 ```
-
-## 6. Pro-Tips for Sequential HDL
-* Implicit Clock: The clock is built into the DFF and Register. State updates only happen at the end of a time step.
-
-* Load=True: In the PC, the Register always has load=true because the Muxes already decided whether the value should change or "stay" (by feeding back the old value).
