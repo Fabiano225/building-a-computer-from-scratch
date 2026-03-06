@@ -21,7 +21,7 @@ The project bridges the gap between hardware and software. By the end, I will ha
 
 ## 🛠️ Tools Used
 - **HDL:** Hardware Description Language for logic simulation.
-- **Languages:** Still unsure, will decide between Java or C++.
+- **Languages:** Python, Java
 - **Simulators:** Hardware Simulator, CPU Emulator, and VM Emulator provided by the course.
 
 ## 🧠 Why I'm doing this
