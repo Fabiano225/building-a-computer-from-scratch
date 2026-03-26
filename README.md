@@ -16,7 +16,7 @@ The project bridges the gap between hardware and software. By the end, I will ha
 - [x] **Project 1-5: Hardware** (Logic Gates, ALU, CPU, Memory)
 - [x] **Project 6: Assembler** (Translating Mnemonics to Binary)
 - [x] **Project 7-8: Virtual Machine** (Stack-based architecture)
-- [ ] **Project 10-11: Compiler** (Tokenizing & Code Generation)
+- [x] **Project 10-11: Compiler** (Tokenizing & Code Generation)
 - [ ] **Project 12: OS & Application** (Standard Libraries & Tetris)
 
 ## 🛠️ Tools Used
