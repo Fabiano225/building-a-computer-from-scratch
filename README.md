@@ -17,7 +17,7 @@ The project bridges the gap between hardware and software. By the end, I will ha
 - [x] **Project 6: Assembler** (Translating Mnemonics to Binary)
 - [x] **Project 7-8: Virtual Machine** (Stack-based architecture)
 - [x] **Project 10-11: Compiler** (Tokenizing & Code Generation)
-- [ ] **Project 12: OS & Application** (Standard Libraries & Tetris)
+- [x] **Project 12: OS & Application** (Standard Libraries & Tetris)
 
 ## 🛠️ Tools Used
 - **HDL:** Hardware Description Language for logic simulation.

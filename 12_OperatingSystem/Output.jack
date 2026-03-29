@@ -1,0 +1,116 @@
+// File name: projects/12/Output.jack
+/**
+ * A library of functions for writing text on the screen.
+ * The Hack physical screen consists of 512 rows of 256 pixels each.
+ */
+class Output {
+
+    static Array charMaps;
+    static int cursorX, cursorY; // Position des Cursors
+
+    /** Initializes the screen, and locates the cursor at the screen's top-left. */
+    function void init() {
+        do Output.initMap();
+        let cursorX = 0;
+        let cursorY = 0;
+        return;
+    }
+
+    // [HIER DEIN BEREITS VORHANDENER CODE FÜR initMap(), create() UND getMap()]
+
+    /** Moves the cursor to the j-th column of the i-th row,
+     * and erases the character displayed there. */
+    function void moveCursor(int i, int j) {
+        let cursorY = i;
+        let cursorX = j;
+        return;
+    }
+
+    /** Displays the given character at the cursor location,
+     * and advances the cursor one column forward. */
+    function void printChar(char c) {
+        var Array map;
+        var int i, j, startX, startY;
+        
+        let map = Output.getMap(c);
+        let startX = cursorX * 8;
+        let startY = cursorY * 11;
+        
+        // Zeichne das Zeichen (11 Reihen hoch)
+        let i = 0;
+        while (i < 11) {
+            let j = 0;
+            // Jedes Zeichen ist max 8 Pixel breit
+            while (j < 8) {
+                // Prüfen ob das j-te Bit in map[i] gesetzt ist
+                // (Einfacher Hack: Wir verweisen hier auf Math.bit, das wir vorhin erstellt haben)
+                if (Math.bit(map[i], j)) {
+                    do Screen.setColor(true); // Schwarz
+                } else {
+                    do Screen.setColor(false); // Weiß
+                }
+                do Screen.drawPixel(startX + j, startY + i);
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        
+        // Farbe für nachfolgende Aktionen zurücksetzen
+        do Screen.setColor(true);
+        
+        // Cursor bewegen
+        let cursorX = cursorX + 1;
+        if (cursorX = 64) {
+            do Output.println();
+        }
+        return;
+    }
+
+    /** displays the given string starting at the cursor location,
+     * and advances the cursor appropriately. */
+    function void printString(String s) {
+        var int i, length;
+        let i = 0;
+        let length = s.length();
+        while (i < length) {
+            do Output.printChar(s.charAt(i));
+            let i = i + 1;
+        }
+        return;
+    }
+
+    /** Displays the given integer starting at the cursor location,
+     * and advances the cursor appropriately. */
+    function void printInt(int i) {
+        var String s;
+        // Nutzt die Int-to-String Konvertierung der String-Klasse
+        let s = String.new(6); // Max Länge eines 16-Bit Ints ist 5 plus Vorzeichen
+        do s.setInt(i);
+        do Output.printString(s);
+        do s.dispose();
+        return;
+    }
+
+    /** Advances the cursor to the beginning of the next line. */
+    function void println() {
+        let cursorX = 0;
+        let cursorY = cursorY + 1;
+        if (cursorY > 22) { // Max 23 Reihen (0 bis 22)
+            let cursorY = 0; // Einfacher Überlauf, komplexere OS scrollen hier
+        }
+        return;
+    }
+
+    /** Moves the cursor one column back. */
+    function void backSpace() {
+        if (cursorX > 0) {
+            let cursorX = cursorX - 1;
+        } else {
+            if (cursorY > 0) {
+                let cursorY = cursorY - 1;
+                let cursorX = 63;
+            }
+        }
+        return;
+    }
+}

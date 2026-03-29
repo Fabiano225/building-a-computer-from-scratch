@@ -1,0 +1,88 @@
+// File name: projects/12/Memory.jack
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+    static Array ram;
+    static Array heap;
+    static int freeList;
+
+    /** Initializes the class. */
+    function void init() {
+        let ram = 0;
+        let heap = 2048;     // Heap startet bei Adresse 2048
+        let freeList = 2048; // freeList zeigt am Anfang auf den Beginn des Heaps
+        
+        let heap[0] = 0;     // next: 0 bedeutet, es gibt keinen nächsten Block
+        let heap[1] = 14335; // length: 16383 (Ende des Heaps) - 2048 = 14335
+        return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+        return ram[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+        let ram[address] = value;
+        return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     * a reference to its base address. */
+    function int alloc(int size) {
+        var int block, prevBlock, nextBlock;
+        var int bestBlock;
+        var int blockLength;
+        
+        if (size < 1) { do Sys.error(5); } // Fehler: Größe ungültig
+        
+        let block = freeList;
+        let prevBlock = 0;
+        let blockLength = ram[block + 1];
+        
+        // Suche nach dem ersten passenden Block (First Fit)
+        while ((blockLength < (size + 1)) & (~(ram[block] = 0))) {
+            let prevBlock = block;
+            let block = ram[block];
+            let blockLength = ram[block + 1];
+        }
+        
+        // Kein ausreichender Speicher gefunden
+        if (blockLength < (size + 1)) {
+            do Sys.error(6); // Out of memory
+        }
+        
+        // Wir schneiden den Block am Ende ab
+        let ram[block + 1] = blockLength - (size + 1);
+        
+        // Der neue reservierte Block beginnt hier:
+        let bestBlock = block + blockLength - size;
+        
+        // Speichere die Größe des reservierten Blocks direkt davor (-1)
+        let ram[bestBlock - 1] = size + 1; 
+        
+        return bestBlock;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     * it available for future allocations. */
+    function void deAlloc(Array o) {
+        var int block;
+        let block = freeList;
+        
+        // Finde das Ende der freeList
+        while (~(ram[block] = 0)) {
+            let block = ram[block];
+        }
+        
+        // Hänge das freigegebene Objekt (o-1 ist der Header mit der Größe) an
+        let ram[block] = o - 1;
+        let ram[o - 1] = 0; // Es gibt danach (noch) keinen weiteren Block
+        
+        return;
+    }
+}

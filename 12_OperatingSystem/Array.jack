@@ -1,0 +1,25 @@
+// File name: projects/12/Array.jack
+/**
+ * Represents an array.
+ * In the Jack language, arrays are instances of the Array class. [cite: 155, 156]
+ * Once declared, the array entries can be accessed using the usual
+ * syntax arr[i]. [cite: 156, 157] Each array entry can hold a primitive data type as 
+ * well as any object type. [cite: 157, 158] Different array entries can have different 
+ * data types. [cite: 158, 159]
+ */
+class Array {
+
+    /** Constructs a new Array of the given size. [cite: 159, 160] */
+    function Array new(int size) {
+        if (size < 1) {
+            do Sys.error(2);
+        }
+        return Memory.alloc(size);
+    }
+
+    /** Disposes this array. [cite: 160, 161] */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
